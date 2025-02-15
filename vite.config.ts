@@ -5,6 +5,10 @@ import autoprefixer from 'autoprefixer'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [svelte()],
+  server: {
+    host: true,
+    port: 8080
+  },
   css: {
     postcss: {
       plugins: [tailwindcss,autoprefixer]
