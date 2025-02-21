@@ -21,6 +21,6 @@
         <!-- svelte-ignore a11y_label_has_associated_control -->
         <label>詳細を入力</label>
         <input type="text" bind:value={detail}>
-        <button type="submit" class=" shadow-md bg-blue-500">追加</button>
+        <button type="submit" class=" shadow-md bg-blue-500 rounded">追加</button>
     </form>
 </div>
