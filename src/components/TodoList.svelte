@@ -1,11 +1,17 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { fetchTodo } from "../lib/api";
+    import { fetchTodoByUserId } from "../lib/api";
     import TodoItem from "./TodoItem.svelte";
     import { todos } from "../lib/store";
+    import { getCurrentUser } from "../lib/auth";
     
     onMount(async () => {
-        todos.set(await fetchTodo()); // ✅ store にデータをセット
+        const user = await getCurrentUser();
+        if (!user){
+            console.log("取得できません");
+        }else{
+            todos.set(await fetchTodoByUserId(user.id)); // ✅ store にデータをセット
+        }
     });
 </script>
 

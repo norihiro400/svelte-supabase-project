@@ -9,15 +9,25 @@ export async function fetchTodo(){
     console.log("fetchしたやで",error);
     return data || [];
 }
-
-export async function addTodo(title:string,detail:string){
-    const {data,error} = await supabase.from("todo").insert([{title,detail}]).select();
+//指定したuser_idのタスクを取得
+export async function fetchTodoByUserId(user_id:string) {
+    let {data,error} = await supabase.from("todo").select("*").eq("user_id",user_id);
+    if (error){
+        console.log("取得エラー");
+    }
+    console.log("取得成功");
+    return data || [];
+    
+}
+//タスク作成
+export async function addTodo(title:string,detail:string,user_id:string){
+    const {data,error} = await supabase.from("todo").insert([{title,detail,user_id}]).select();
     if(error){
         console.log("追加エラー",error);
     }
     return data;
 }
-
+//タスク削除
 export async function deleteTodo(id:number){
     const {data,error} = await supabase.from("todo").delete().eq('id',id);
     if(error){

@@ -1,30 +1,27 @@
 <script lang="ts">
-  export let password:string = "";
-  export let email:string = "";
+    import { navigate } from "svelte-routing";
+    import { registerUser } from "../lib/auth";
+    let email:string = "";
+    let password:string = "";
+    let errorMessage = "";
 
-  export let errorMessage = "";
-  import { Link } from "svelte-routing";
-  import { navigate } from "svelte-routing"; 
-  import { signInWithEmail } from "../lib/auth";
+    async function handleSubmit(event:Event) {
+        event.preventDefault();
+        const { data,error } = await registerUser(email,password);
+        if (error){
+            console.log("サインアップエラー");
+            errorMessage = error;
+            return;
+        }
+        console.log("サインアップ成功");
+        navigate("/login");
 
-  async function handleSubmit(event:Event) {
-    event.preventDefault();
-
-    const {data,error} = await signInWithEmail(email,password);
-    if (error){
-      errorMessage = error;
-    }else{
-      errorMessage = "";
-      navigate("/");
     }
-
-  }
-   
 </script>
-  <div class="flex items-center justify-center h-screen bg-gray-500">
+<div class="flex items-center justify-center h-screen bg-gray-500">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs" on:submit={handleSubmit}>
       <div class=" mb-4">
-        <p class=" text-center font-bold">ログイン</p>
+        <p class=" text-center font-bold">新規登録</p>
       </div>
       {#if errorMessage}
         <p class=" text-red-500">{errorMessage}</p>
@@ -44,9 +41,8 @@
       </div>
       <div class="flex items-center justify-between">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Sign In
+          登録
         </button>
-        <Link to="/register" class=" bg-amber-500 px-4 py-2 rounded">新規登録</Link>
       </div>
     </form>
 </div>
