@@ -7,6 +7,7 @@
   import Navbar from "./components/Navbar.svelte";
     import Analysis from "./components/Analysis.svelte";
     import Input from "./components/Input.svelte";
+    import Detail from "./components/Detail.svelte";
   onMount(async() =>{
     const user = await getCurrentUser();
     if (!user){
@@ -26,7 +27,7 @@
   <Route path="/record">
     <h2 class="text-center my-7 text-amber-500 drop-shadow text-2xl font-bold">At Corder スコア管理</h2>
     <Navbar/>
-    <p>履歴</p>
+    <Detail/>
   </Route>
   <Route path="login">
     <LoginForm/>

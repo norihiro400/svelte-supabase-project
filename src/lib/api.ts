@@ -28,6 +28,16 @@ export async function updateNumContest(user_id:string) {
     console.log("成功",{data,error});
     return {data};
 }
+//最高点数更新
+export async function updateMaxscore(new_score:number,user_id:string) {
+    const {data,error} = await supabase.rpc('update_max_score',{new_score:new_score,user_id_param:user_id});
+    if (error){
+        console.log("更新エラー");
+    }
+    console.log("成功");
+    return {data};
+}
+
 //ユーザー情報テーブルの情報を取得(ユーザーidごとに)
 export async function getUserInfo(user_id:string) {
     const {data,error} = await supabase.from("user_info").select('*').eq('user_id',user_id).single();
@@ -36,5 +46,16 @@ export async function getUserInfo(user_id:string) {
         return {error:error.message};
     }
     console.log("ユーザー情報を取得成功");
+    return {data};
+}
+
+//ユーザーの履歴を取得
+export async function getRecordById(user_id:string) {
+    const {data,error} = (await supabase.from('score').select('*').eq('user_id',user_id));
+    if (error){
+        console.log('取得エラー');
+        return {error:error.message};
+    }
+    console.log('成功');
     return {data};
 }

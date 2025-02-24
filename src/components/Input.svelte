@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { addResult, updateNumContest } from "../lib/api";
+    import { addResult, getUserInfo, updateNumContest } from "../lib/api";
     import { getCurrentUser } from "../lib/auth";
-    let scores: (number | null)[] = Array(7).fill(null);
+    import { max_score, num_contest } from "../lib/store";
+    import { updateMaxscore } from "../lib/api";
+    let scores: (number)[] = Array(7).fill(null);
     let contest_name: string = "";
     let contest_date: string = "";
+    let sum:number = 0;
     
     async function handleSubmit(event:Event) {
         event.preventDefault();
@@ -19,9 +22,18 @@
         }else{
             await addResult(contest_name,contest_date,scores,user.id)
             await updateNumContest(user.id);
+            for (let i = 0; i < scores.length;i++){
+                sum+=scores[i];
+            }
+            await updateMaxscore(sum,user.id);
             contest_name = "";
             contest_date = "";
             scores = Array(7).fill(null);
+            const userInfo = await getUserInfo(user.id);
+            if (userInfo){
+                max_score.set(userInfo.data.max_score);
+                num_contest.set(userInfo.data.num_contest);
+            }
         }
     }
 </script>
