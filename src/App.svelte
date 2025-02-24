@@ -1,11 +1,12 @@
 <script lang="ts">
-  import TodoList from "./components/TodoList.svelte";
-  import TodoForm from "./components/TodoForm.svelte";
   import { Route,Router,Link, navigate } from "svelte-routing";
   import LoginForm from "./components/LoginForm.svelte";
   import { onMount } from "svelte";
-    import { getCurrentUser } from "./lib/auth";
-    import Register from "./components/Register.svelte";
+  import { getCurrentUser } from "./lib/auth";
+  import Register from "./components/Register.svelte";
+  import Navbar from "./components/Navbar.svelte";
+    import Analysis from "./components/Analysis.svelte";
+    import Input from "./components/Input.svelte";
   onMount(async() =>{
     const user = await getCurrentUser();
     if (!user){
@@ -17,11 +18,15 @@
 
 <Router>
   <Route path="">
-    <div class=" container ">
-      <h2 class="text-center my-10 text-gray-950 font-bold text-2xl ">Todo App</h2>
-      <TodoForm/>
-      <TodoList/> 
-    </div> 
+    <h2 class="text-center my-7 text-amber-500 drop-shadow text-2xl font-bold">At Corder スコア管理</h2>
+    <Navbar/>
+    <Analysis/>
+    <Input/>
+  </Route>
+  <Route path="/record">
+    <h2 class="text-center my-7 text-amber-500 drop-shadow text-2xl font-bold">At Corder スコア管理</h2>
+    <Navbar/>
+    <p>履歴</p>
   </Route>
   <Route path="login">
     <LoginForm/>

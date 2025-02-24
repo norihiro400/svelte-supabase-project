@@ -35,3 +35,12 @@ export async function deleteTodo(id:number){
     }
     return data;
 }
+
+//結果を入力
+export async function addResult(contest_name:string,contest_date:string,score:(number|null)[],user_id:string) {
+    const {data,error} = await supabase.from("score").insert([{contest_name,contest_date,score,user_id}]).select();
+    if (error){
+        console.log("追加エラー");
+    }
+    return data;
+}
