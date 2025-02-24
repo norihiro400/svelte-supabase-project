@@ -1,4 +1,3 @@
-import { num_contest } from "./store";
 import { supabase } from "./supabaseClient";
 
 //結果を入力
@@ -31,7 +30,7 @@ export async function updateNumContest(user_id:string) {
 }
 //ユーザー情報テーブルの情報を取得(ユーザーidごとに)
 export async function getUserInfo(user_id:string) {
-    const {data,error} = await supabase.from("user_info").select('*').eq('user_id',user_id);
+    const {data,error} = await supabase.from("user_info").select('*').eq('user_id',user_id).single();
     if (error){
         console.log("取得エラー");
         return {error:error.message};

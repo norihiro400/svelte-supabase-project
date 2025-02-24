@@ -1,7 +1,6 @@
 <script lang="ts">
     import { addResult, updateNumContest } from "../lib/api";
     import { getCurrentUser } from "../lib/auth";
-    import { num_contest } from "../lib/store";
     let scores: (number | null)[] = Array(7).fill(null);
     let contest_name: string = "";
     let contest_date: string = "";
@@ -23,7 +22,6 @@
             contest_name = "";
             contest_date = "";
             scores = Array(7).fill(null);
-            num_contest.update(n=>n+1);
         }
     }
 </script>

@@ -1,21 +1,23 @@
 <script lang="ts">
     import { Link } from "svelte-routing";
-    import { num_contest } from "../lib/store";
     import { getUserInfo } from "../lib/api";
     import { getCurrentUser } from "../lib/auth";
+    import { onMount } from "svelte";
+    import { num_contest } from "../lib/store";
     export let max_score:number = 0;
+    let userName:string = "取得中...";
 
-    async function handleSubmit(event:Event) {
-        event.preventDefault();
+    onMount(async ()=>{
         const user = await getCurrentUser();
-        if (!user){
-            console.log("ユーザーがいません");
-        }else{
-            const {data,error} = await getUserInfo(user.id);
-            return {data};
+        if (user){
+            const userinfo = await getUserInfo(user.id);
+            if (userinfo){
+                userName = userinfo.data.username;
+                num_contest.set(userinfo.data.num_contest);
+            }
         }
+    })
 
-    }
 </script>
 
 <div class="flex justify-center p-6">
@@ -24,6 +26,11 @@
         
         <h2 class="text-center font-semibold text-slate-800 mb-4">分析</h2>
         
+        <div class="bg-gradient-to-r from-purple-400 to-blue-400 p-3 rounded-lg text-white shadow-inner my-3">
+            <p class="text-lg font-medium text-center">
+                ユーザー名: <span class=" font-bold">{userName}</span> 
+            </p>
+        </div>
         <div class="bg-gradient-to-r from-purple-400 to-blue-400 p-3 rounded-lg text-white shadow-inner my-3">
             <p class="text-lg font-medium text-center">
                 コンテスト参加回数: <span class="text-3xl font-bold">{$num_contest}</span> 回
