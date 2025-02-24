@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { addResult } from "../lib/api";
+    import { addResult, updateNumContest } from "../lib/api";
     import { getCurrentUser } from "../lib/auth";
     import { num_contest } from "../lib/store";
     let scores: (number | null)[] = Array(7).fill(null);
@@ -19,6 +19,7 @@
             console.log("取得できるユーザーがないです");
         }else{
             await addResult(contest_name,contest_date,scores,user.id)
+            await updateNumContest(user.id);
             contest_name = "";
             contest_date = "";
             scores = Array(7).fill(null);

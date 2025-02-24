@@ -1,7 +1,21 @@
 <script lang="ts">
     import { Link } from "svelte-routing";
     import { num_contest } from "../lib/store";
+    import { getUserInfo } from "../lib/api";
+    import { getCurrentUser } from "../lib/auth";
     export let max_score:number = 0;
+
+    async function handleSubmit(event:Event) {
+        event.preventDefault();
+        const user = await getCurrentUser();
+        if (!user){
+            console.log("ユーザーがいません");
+        }else{
+            const {data,error} = await getUserInfo(user.id);
+            return {data};
+        }
+
+    }
 </script>
 
 <div class="flex justify-center p-6">
