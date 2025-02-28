@@ -8,7 +8,13 @@
     let contest_date: string = "";
     let sum:number = 0;
     let errorMessage:string = "";
+    let is_public:boolean = false;
     
+    // checkbox押したら公開
+    const changeisPublic = () => {
+        is_public = !is_public;
+        console.log("公開するかどうか",is_public);
+    }
     async function handleSubmit(event:Event) {
         event.preventDefault();
         console.log("呼ばれました");
@@ -16,11 +22,11 @@
             contest_name,contest_date,scores
         );
         if (contest_name.trim()==="" || contest_date.trim()===""){
-            errorMessage = "空欄は許可されていません";
+            errorMessage = "コンテスト情報を入力してください";
             return errorMessage;
         }
         if (scores.some(score => score === null)){
-            errorMessage = "空欄は許可されていません";
+            errorMessage = "点数を入力してください";
             return errorMessage;
         }
         
@@ -31,7 +37,7 @@
             for (let i = 0; i < scores.length;i++){
                 sum+=scores[i];
             }
-            await addResult(contest_name,contest_date,scores,user.id,sum)
+            await addResult(contest_name,contest_date,scores,user.id,sum,is_public)
             await updateNumContest(user.id);
             await updateMaxscore(sum,user.id);
             contest_name = "";
@@ -42,8 +48,10 @@
                 max_score.set(userInfo.data.max_score);
                 num_contest.set(userInfo.data.num_contest);
             }
+            window.scrollTo({top:0,behavior:'auto'});
         }
     }
+
 </script>
 
 <div class="flex justify-center p-6">
@@ -89,6 +97,10 @@
                     >
                 </div>
             {/each}
+            <div>
+                <input type="checkbox" id="ispublic" on:change={changeisPublic}>     
+                <label for="ispublic" class=" font-semibold mx-2">結果を公開する</label>         
+            </div>
 
             <!-- 送信ボタン -->
             <div class="flex justify-center flex-col space-y-2">
