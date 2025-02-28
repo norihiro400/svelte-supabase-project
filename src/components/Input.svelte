@@ -7,6 +7,7 @@
     let contest_name: string = "";
     let contest_date: string = "";
     let sum:number = 0;
+    let errorMessage:string = "";
     
     async function handleSubmit(event:Event) {
         event.preventDefault();
@@ -14,17 +15,24 @@
         console.log(
             contest_name,contest_date,scores
         );
-        if (contest_name.trim()==="" || contest_date.trim()==="") return;
-        if (scores.some(score => score === null)) return;
+        if (contest_name.trim()==="" || contest_date.trim()===""){
+            errorMessage = "空欄は許可されていません";
+            return errorMessage;
+        }
+        if (scores.some(score => score === null)){
+            errorMessage = "空欄は許可されていません";
+            return errorMessage;
+        }
+        
         const user = await getCurrentUser();
         if (!user){
             console.log("取得できるユーザーがないです");
         }else{
-            await addResult(contest_name,contest_date,scores,user.id)
-            await updateNumContest(user.id);
             for (let i = 0; i < scores.length;i++){
                 sum+=scores[i];
             }
+            await addResult(contest_name,contest_date,scores,user.id,sum)
+            await updateNumContest(user.id);
             await updateMaxscore(sum,user.id);
             contest_name = "";
             contest_date = "";
@@ -83,7 +91,8 @@
             {/each}
 
             <!-- 送信ボタン -->
-            <div class="flex justify-center">
+            <div class="flex justify-center flex-col space-y-2">
+                <p class=" text-red-600 font-bold">{errorMessage}</p>
                 <button 
                     type="submit" 
                     class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md 

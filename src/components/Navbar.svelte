@@ -30,7 +30,7 @@
                 コンテスト履歴
             </Link>
             <Link to="/comunity" class="text-slate-700 hover:underline font-bold">
-                コミュニティ
+                みんなの成績
             </Link>
         </div>
         

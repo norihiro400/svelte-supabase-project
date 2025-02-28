@@ -1,8 +1,8 @@
 import { supabase } from "./supabaseClient";
 
 //結果を入力
-export async function addResult(contest_name:string,contest_date:string,score:(number|null)[],user_id:string) {
-    const {data,error} = await supabase.from("score").insert([{contest_name,contest_date,score,user_id}]).select();
+export async function addResult(contest_name:string,contest_date:string,score:(number|null)[],user_id:string,sum:number) {
+    const {data,error} = await supabase.from("score").insert([{contest_name,contest_date,score,user_id,sum}]).select();
     if (error){
         console.log("追加エラー");
     }
@@ -58,4 +58,15 @@ export async function getRecordById(user_id:string) {
     }
     console.log('成功');
     return {data};
+}
+
+export async function getAllScore() {
+    const {data,error} = await supabase.from("score").select(`contest_name,contest_date,score,sum,user_info(username)`);
+    if (error){
+        console.log("エラー",error.message);
+        return {error:error.message};
+    }
+    console.log("成功",data);
+    return {data};
+    
 }

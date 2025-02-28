@@ -8,6 +8,7 @@
     import Analysis from "./components/Analysis.svelte";
     import Input from "./components/Input.svelte";
     import Detail from "./components/Detail.svelte";
+    import Comunity from "./components/Comunity.svelte";
   onMount(async() =>{
     const user = await getCurrentUser();
     if (!user){
@@ -34,6 +35,11 @@
   </Route>
   <Route path="register">
     <Register/>
+  </Route>
+  <Route path="/comunity">
+    <h2 class="text-center my-7 text-amber-500 drop-shadow text-2xl font-bold">At Corder スコア管理</h2>
+    <Navbar/>
+    <Comunity/>
   </Route>
 
 </Router>
