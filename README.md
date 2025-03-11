@@ -3,6 +3,9 @@
 At coderのコンテストのスコアなどを管理できるアプリを作りました。
 ユーザー同士で対戦相手を決めて対戦できるようにする機能もあったらいいですね。今後実装していきたいです。
 
+
+URL： https://svelte-supabase-project.vercel.app/
+
 ## 技術スタック
 * フロントエンド：Svelte+typescript
 * バックエンド：supabase(BaaS)\
